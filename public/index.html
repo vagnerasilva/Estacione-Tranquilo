@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Estacione Tranquilo</title>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	
+	<script src="/circle-progress.js"></script>
+
+</head>
+
+
+
+
+<body>
+
+
+<div class="all">
+	<h1>ESTACIONE<br>TRANQUILO</h1>
+  <br><p id="dist">0</p>
+  <div id="circle"></div>
+</div>
+    
+</body>
+<script>
+   $('#circle').circleProgress({
+       
+        value: 0.0,
+        size: 250,
+        fill: {
+            gradient: ["orange", "red"]
+        },
+        animation: false
+    });
+
+  var socket = io('http://localhost:90');
+  var teste;
+  socket.on('news', function (data) {
+    //console.log(data);
+    //socket.emit('my other event', { my: 'data' });
+    $("#dist").text(data/100);
+    if(data<=3000){
+      teste= (1-(data/3000)).toFixed(2) ;
+      console.log(teste);
+    $('#circle').circleProgress('value', teste);
+    }
+    else{
+    $('#circle').circleProgress('value', 0.0); 
+    }
+    
+   
+
+
+  });
+ 
+</script>
+
+
+</html>
